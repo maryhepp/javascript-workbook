@@ -7,11 +7,39 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// Whiteboarding of rock, paper, scissors:
+// Player1 input of rock, paper, or scissors.
+// Player2 input of rock, paper, or scissors.
+// Compare Player1 input to Player2 input.
+// Scenarios:
+// If Player1 input === 'rock' & Player2 input === 'scissor', Player1 wins.
+// If Player1 input === 'rock' & Player2 input === 'paper', Player2 wins.
+// If Player1 input === 'rock' & Player2 input === 'rock', it's a tie.
+// If Player1 input === 'paper' & Player2 input === 'rock', Player1 wins.
+// If Player1 input === 'paper' & Player2 input === 'scissors', Player2 wins.
+// If Player1 input === 'paper' & Player2 input === 'paper', it's a tie.
+// If Player1 input === 'scissors' & Player2 input === 'paper', Player1 wins.
+// If Player1 input === 'scissors' & Player2 input === 'rock', Player2 wins.
+// If Player1 input === 'scissors' & Player2 input === 'scissors', it's a tie.
 
 function rockPaperScissors(hand1, hand2) {
-
-  // Write code here
-
+  if (hand1 === hand2) {
+    return "It's a Tie!";
+  } else if (hand1 === 'rock' && hand2 === 'scissors') {
+    return "Hand one wins!";
+  } else if (hand1 === 'rock' && hand2 === 'paper') {
+    return "Hand two wins!";
+  } else if (hand1 === 'paper' && hand2 === 'rock') {
+    return "Hand one wins!";
+  } else if (hand1 === 'paper' && hand2 === 'scissors') {
+    return "Hand two wins!";
+  } else if (hand1 === 'scissors' && hand2 === 'rock') {
+    return "Hand two wins!";
+  } else if (hand1 === 'scissors' && hand2 === 'paper') {
+    return "Hand one wins!";
+  } else {
+    return "Try Again";
+  }
 }
 
 function getPrompt() {
