@@ -7,6 +7,13 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// Goal is to move all the pieces from the left post (a) over to the right post (c) 
+// Create ability to move the 4 pieces between 3 stacks
+// Test if moves between stacks are legal; pieces cannot be moved onto smaller pieces
+// Check for win if in stack c length = 4
+// If win found, reset board
+
+// Board creation
 let stacks = {
   a: [4, 3, 2, 1],
   b: [],
@@ -19,24 +26,63 @@ function printStacks() {
   console.log("c: " + stacks.c);
 }
 
-function movePiece() {
-  // Your code here
-
+// Moves the last piece of the array in the startStack moves it to the last position in the endStack
+const movePiece = (startStack, endStack) => {
+  return stacks[endStack].push(stacks[startStack].pop());
 }
 
-function isLegal() {
-  // Your code here
-
+//Checks if movepiece is legal or invalid - pieces can only be moved onto a value that is smaller
+const isLegal = (startStack, endStack) => {
+  if (stackTest(startStack, endStack)) {
+    const firstTest = stacks[startStack][stacks[startStack].length - 1];
+    const lastTest = stacks[endStack][stacks[endStack].length - 1];
+    if ((firstTest < lastTest) || (stacks[endStack].length === 0)) {
+      return true;
+    } else {
+      console.log('Invalid Move. Try again!');
+      return false;
+    }
+  } else {
+    console.log('Invalid Move. Try again!');
+    return false;
+  }
 }
 
-function checkForWin() {
-  // Your code here
-
+//Tests to ensure the user is entering an a, b, or c first and a corresponding different letter next
+const stackTest = (startStack, endStack) => {
+  if ((startStack === 'a') && (endStack === 'b' || endStack === 'c')) {
+    return true;
+  } else if ((startStack === 'b') && (endStack === 'a' || endStack === 'c')) {
+    return true;
+  } else if ((startStack === 'c') && (endStack === 'a' || endStack === 'b')) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-function towersOfHanoi(startStack, endStack) {
-  // Your code here
+// Checks for winning stack in stack c with a length value of 4
+const checkForWin = () => {
+  if (stacks.c.length === 4) {
+    console.log('You did it!!!!')
+    return true;
+  } else {
+    return false;
+  }
+}
 
+// Once win found, reset game
+const towersOfHanoi = (startStack, endStack) => {
+  if (isLegal(startStack, endStack)) {
+    movePiece(startStack, endStack)
+  }
+  if (checkForWin()) {
+    stacks = {
+      a: [4, 3, 2, 1],
+      b: [],
+      c: []
+    };
+  }
 }
 
 function getPrompt() {
@@ -49,7 +95,7 @@ function getPrompt() {
   });
 }
 
-// Tests
+// Tests that functions work correctly
 
 if (typeof describe === 'function') {
 
@@ -77,6 +123,14 @@ if (typeof describe === 'function') {
       };
       assert.equal(isLegal('a', 'c'), true);
     });
+    it('should not allow a legal move', () => {
+      stacks = {
+        a: [4, 3, 2],
+        b: [],
+        c: [1]
+      };
+      assert.equal(isLegal('a', 'c'), false);
+    });
   });
   describe('#checkForWin()', () => {
     it('should detect a win', () => {
@@ -90,5 +144,4 @@ if (typeof describe === 'function') {
 } else {
 
   getPrompt();
-
 }
